@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game Cards</title>
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
     @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
@@ -683,6 +684,13 @@
         author: "Babuschkin, Kevin D, Gabor B, Tadej N and Jiannan Z",
         url: "https://carbonical.github.io/particle-clicker/"
       },
+      {
+        name: "Riddle School",
+        image: "https://jayisgames.com/images/15743-b.jpg",
+        description: "placeholder",
+        author: "Babuschkin, Kevin D, Gabor B, Tadej N and Jiannan Z",
+        url: "games/Riddle_School.swf"
+      },
     ];
 
     // Save games to local storage
@@ -752,17 +760,30 @@
       createGameCards();
     }
 
-    function openGameInIframe(url) {
-      const iframeContainer = document.getElementById('iframe-container');
-      const iframe = document.getElementById('game-iframe');
-      const loader = document.querySelector('.loader');
-      
-      iframe.src = url;
-      iframeContainer.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+    function openGameInIframe(game) {
+    const iframeContainer = document.getElementById("game-container");
+    iframeContainer.innerHTML = ""; // Clear previous game
 
-      loader.style.display = 'block';
+    if (game.url.endsWith(".swf")) {
+        let ruffleObject = document.createElement("embed");
+        ruffleObject.src = game.url;
+        ruffleObject.width = "100%";
+        ruffleObject.height = "100%";
+        ruffleObject.setAttribute("allowfullscreen", "true");
+        ruffleObject.setAttribute("type", "application/x-shockwave-flash");
+
+        iframeContainer.appendChild(ruffleObject);
+    } else {
+        let iframe = document.createElement("iframe");
+        iframe.src = game.url;
+        iframe.width = "100%";
+        iframe.height = "100%";
+        iframe.setAttribute("allowfullscreen", "true");
+
+        iframeContainer.appendChild(iframe);
     }
+}
+
 
     function onIframeLoad() {
       const iframeContainer = document.getElementById('iframe-container');
