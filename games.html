@@ -805,24 +805,23 @@
   document.querySelector('.loader').style.display = 'none';
 }
 
-
     function goBack() {
   const iframeContainer = document.getElementById('iframe-container');
-  document.body.style.overflow = 'auto';
-  iframeContainer.style.display = 'none';
-
   const iframe = document.getElementById('game-iframe');
+  const loader = document.querySelector('.loader');
+
+  // Hide the iframe container
+  iframeContainer.style.display = 'none';
+  document.body.style.overflow = 'auto';
+
+  // Reset iframe src to stop running game
   if (iframe) {
-    iframe.src = ''; // Reset iframe source
+    iframe.src = '';
   }
 
-  const flashContainer = document.getElementById('flash-container');
-  if (flashContainer) {
-    flashContainer.innerHTML = ''; // Clear Flash container
-  }
+  // Ensure loader stays hidden after game loads
+  loader.style.display = 'none';
 }
-
-
 
     // init
     window.onload = createGameCards;
