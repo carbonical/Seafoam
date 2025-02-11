@@ -789,15 +789,17 @@
   const iframe = document.getElementById('game-iframe');
   const loader = document.querySelector('.loader');
 
-  iframe.src = url;
+  // Show loader when starting to load
   loader.style.display = 'block';
 
+  iframe.src = url;
+  iframeContainer.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  // Hide loader when iframe fully loads
   iframe.onload = () => {
     loader.style.display = 'none';
   };
-
-  iframeContainer.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
 }
 
 
