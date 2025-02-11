@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
   <title>Game Cards</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
@@ -684,14 +683,6 @@
         author: "Babuschkin, Kevin D, Gabor B, Tadej N and Jiannan Z",
         url: "https://carbonical.github.io/particle-clicker/"
       },
-      {
-        name: "Riddle School",
-        image: "https://jayisgames.com/images/15743-b.jpg",
-        description: "placeholder",
-        author: "uknon",
-        url: "games/Riddle_School.swf",
-        isFlash: true
-      },
     ];
 
     // Save games to local storage
@@ -714,66 +705,32 @@
     }
 
     function createGameCards() {
-  const gameContainer = document.getElementById('game-container');
-  gameContainer.innerHTML = '';
+      const gameContainer = document.getElementById('game-container');
+      gameContainer.innerHTML = '';
 
-  gamesData.forEach(game => {
-    const gameCard = document.createElement('div');
-    gameCard.classList.add('game-card');
-    gameCard.setAttribute('data-game-name', game.name);
+      gamesData.forEach(game => {
+        const gameCard = document.createElement('div');
+        gameCard.classList.add('game-card');
+        gameCard.setAttribute('data-game-name', game.name);
 
-    gameCard.innerHTML = `
-      <img src="${game.image}" alt="Game Image">
-      <div class="author-tag">${game.author}</div>
-      <div class="overlay">
-        <h3>${game.name}</h3>
-        <p>${game.description}</p>
-      </div>
-    `;
+        gameCard.innerHTML = `
+          <img src="${game.image}" alt="Game Image">
+          <div class="author-tag">${game.author}</div>
+          <div class="overlay">
+            <h3>${game.name}</h3>
+            <p>${game.description}</p>
+          </div>
+        `;
 
-    if (game.isCustom) {
-      gameCard.onclick = () => addCustomGame();
-    } else if (game.isFlash) {
-      gameCard.onclick = () => openFlashGame(game.url);
-    } else {
-      gameCard.onclick = () => openGameInIframe(game.url);
+        if (game.isCustom) {
+          gameCard.onclick = () => addCustomGame();
+        } else {
+          gameCard.onclick = () => openGameInIframe(game.url);
+        }
+
+        gameContainer.appendChild(gameCard);
+      });
     }
-
-    gameContainer.appendChild(gameCard);
-  });
-}
-
-    function openFlashGame(swfPath) {
-  const iframeContainer = document.getElementById('iframe-container');
-  const loader = document.querySelector('.loader');
-
-  // Show loader when loading starts
-  loader.style.display = 'block';
-
-  iframeContainer.innerHTML = `
-    <span class="material-icons back-button" onclick="goBack()">arrow_back</span>
-    <div class="loader"></div>
-    <div id="flash-container" style="width: 100%; height: 100%;"></div>
-  `;
-
-  document.body.style.overflow = 'hidden';
-  iframeContainer.style.display = 'flex';
-
-  const flashContainer = document.getElementById("flash-container");
-  const ruffle = window.RufflePlayer.newest();
-  const player = ruffle.createPlayer();
-  flashContainer.appendChild(player);
-  
-  player.load(swfPath);
-
-  // Hide loader after a short delay to ensure smooth transition
-  setTimeout(() => {
-    loader.style.display = 'none';
-  }, 800);
-}
-
-
-
 
     function addCustomGame() {
       const gameName = prompt("Enter the name of the custom game:");
@@ -796,52 +753,30 @@
     }
 
     function openGameInIframe(url) {
-  const iframeContainer = document.getElementById('iframe-container');
-  const iframe = document.getElementById('game-iframe');
-  const loader = document.querySelector('.loader');
+      const iframeContainer = document.getElementById('iframe-container');
+      const iframe = document.getElementById('game-iframe');
+      const loader = document.querySelector('.loader');
+      
+      iframe.src = url;
+      iframeContainer.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
 
-  // Show loader at the start
-  loader.style.display = 'block';
-  loader.style.opacity = 1;
-
-  iframe.src = url;
-  iframeContainer.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-
-  // Hide loader when iframe fully loads
-  iframe.onload = () => {
-    setTimeout(() => {
-      loader.style.display = 'none';
-      loader.style.opacity = 0;
-    }, 500); // Small delay to ensure smooth hiding
-  };
-}
-
-
+      loader.style.display = 'block';
+    }
 
     function onIframeLoad() {
-  document.querySelector('.loader').style.display = 'none';
-}
+      const iframeContainer = document.getElementById('iframe-container');
+      const loader = document.querySelector('.loader');
+
+      loader.style.display = 'none';
+    }
 
     function goBack() {
-  const iframeContainer = document.getElementById('iframe-container');
-  const iframe = document.getElementById('game-iframe');
-  const loader = document.querySelector('.loader');
-
-  // Hide the iframe container
-  iframeContainer.style.display = 'none';
-  document.body.style.overflow = 'auto';
-
-  // Reset iframe src to stop running game
-  if (iframe) {
-    iframe.src = '';
-  }
-
-  // **Fix: Hide the loader properly**
-  loader.style.display = 'none';
-  loader.style.opacity = 0; // Ensure it's completely hidden
-}
-
+      const iframeContainer = document.getElementById('iframe-container');
+      iframeContainer.style.display = 'none';
+      document.getElementById('game-iframe').src = '';
+      document.body.style.overflow = 'auto';
+    }
 
     // init
     window.onload = createGameCards;
