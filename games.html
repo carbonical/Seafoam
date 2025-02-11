@@ -745,6 +745,11 @@
 
     function openFlashGame(swfPath) {
   const iframeContainer = document.getElementById('iframe-container');
+  const loader = document.querySelector('.loader');
+
+  // Show loader when loading starts
+  loader.style.display = 'block';
+
   iframeContainer.innerHTML = `
     <span class="material-icons back-button" onclick="goBack()">arrow_back</span>
     <div class="loader"></div>
@@ -760,7 +765,13 @@
   flashContainer.appendChild(player);
   
   player.load(swfPath);
+
+  // Hide loader after a short delay to ensure smooth transition
+  setTimeout(() => {
+    loader.style.display = 'none';
+  }, 800);
 }
+
 
 
 
@@ -789,8 +800,9 @@
   const iframe = document.getElementById('game-iframe');
   const loader = document.querySelector('.loader');
 
-  // Show loader when starting to load
+  // Show loader at the start
   loader.style.display = 'block';
+  loader.style.opacity = 1;
 
   iframe.src = url;
   iframeContainer.style.display = 'flex';
@@ -798,9 +810,13 @@
 
   // Hide loader when iframe fully loads
   iframe.onload = () => {
-    loader.style.display = 'none';
+    setTimeout(() => {
+      loader.style.display = 'none';
+      loader.style.opacity = 0;
+    }, 500); // Small delay to ensure smooth hiding
   };
 }
+
 
 
     function onIframeLoad() {
@@ -821,9 +837,11 @@
     iframe.src = '';
   }
 
-  // Ensure loader stays hidden after game loads
+  // **Fix: Hide the loader properly**
   loader.style.display = 'none';
+  loader.style.opacity = 0; // Ensure it's completely hidden
 }
+
 
     // init
     window.onload = createGameCards;
