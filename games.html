@@ -241,12 +241,40 @@
       display: block;
     }
 
+    #sort-button {
+  background-color: #0a1f1f;
+  color: white;
+  border: 1px solid #163333;
+  border-radius: 50%; /* Circular button */
+  font-size: 18px; /* Smaller font size */
+  padding: 3.5px; /* Reduced padding for a smaller button */
+  cursor: pointer;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  justify-content: center;
+}
+
+#sort-button:hover {
+  background-color: #1a4c4a;
+  border-color: #1a4c4a;
+}
+
+#sort-button .material-icons {
+  margin-right: 0; /* Removed right margin */
+}
+
+
   </style>
 </head>
 <body>
 
   <div class="search-bar">
     <input type="text" placeholder="Search for a game..." id="search-input" oninput="filterGames()">
+    <button id="sort-button" onclick="toggleSort()">
+      <span class="material-icons">sort_by_alpha</span>
+    </button>
   </div>
 
   <div class="game-container" id="game-container">
@@ -262,6 +290,7 @@
   <script>
     // Load games from local storage or initialize with default games
     let gamesData = JSON.parse(localStorage.getItem('gamesData')) || [
+      {
       {
         name: "Add Custom Game",
         image: "https://i.ibb.co/zWDpmsdQ/New-Piskel-1.png",
@@ -692,6 +721,15 @@
       },
     ];
 
+    let isSorted = false;  // Flag to track the sorting state
+
+    // Function to toggle the sorting state
+    function toggleSort() {
+  isSorted = !isSorted;
+  createGameCards();  // Re-create the game cards with the new sort state
+}
+
+
     // Save games to local storage
     function saveGamesToLocalStorage() {
       localStorage.setItem('gamesData', JSON.stringify(gamesData));
@@ -715,7 +753,10 @@
       const gameContainer = document.getElementById('game-container');
       gameContainer.innerHTML = '';
 
-      gamesData.forEach(game => {
+      // Sort the games alphabetically if the toggle is on
+      const sortedGames = isSorted ? [...gamesData].sort((a, b) => a.name.localeCompare(b.name)) : gamesData;
+
+      sortedGames.forEach(game => {
         const gameCard = document.createElement('div');
         gameCard.classList.add('game-card');
         gameCard.setAttribute('data-game-name', game.name);
