@@ -745,23 +745,23 @@
 
     function openFlashGame(swfPath) {
   const iframeContainer = document.getElementById('iframe-container');
-  const iframe = document.getElementById('game-iframe');
-  const loader = document.querySelector('.loader');
-
   iframeContainer.innerHTML = `
     <span class="material-icons back-button" onclick="goBack()">arrow_back</span>
-    <embed 
-      src="${swfPath}" 
-      width="100%" 
-      height="100%" 
-      allowfullscreen="true"
-      wmode="direct"
-      type="application/x-shockwave-flash">
+    <div class="loader"></div>
+    <div id="flash-container" style="width: 100%; height: 100%;"></div>
   `;
 
-  iframeContainer.style.display = 'flex';
   document.body.style.overflow = 'hidden';
+  iframeContainer.style.display = 'flex';
+
+  const flashContainer = document.getElementById("flash-container");
+  const ruffle = window.RufflePlayer.newest();
+  const player = ruffle.createPlayer();
+  flashContainer.appendChild(player);
+  
+  player.load(swfPath);
 }
+
 
 
     function addCustomGame() {
@@ -785,34 +785,43 @@
     }
 
     function openGameInIframe(url) {
-      const iframeContainer = document.getElementById('iframe-container');
-      const iframe = document.getElementById('game-iframe');
-      const loader = document.querySelector('.loader');
-      
-      iframe.src = url;
-      iframeContainer.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+  const iframeContainer = document.getElementById('iframe-container');
+  const iframe = document.getElementById('game-iframe');
+  const loader = document.querySelector('.loader');
 
-      loader.style.display = 'block';
-    }
+  iframe.src = url;
+  loader.style.display = 'block';
+
+  iframe.onload = () => {
+    loader.style.display = 'none';
+  };
+
+  iframeContainer.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
 
     function onIframeLoad() {
-      const iframeContainer = document.getElementById('iframe-container');
-      const loader = document.querySelector('.loader');
+  document.querySelector('.loader').style.display = 'none';
+}
 
-      loader.style.display = 'none';
-    }
 
     function goBack() {
   const iframeContainer = document.getElementById('iframe-container');
-  iframeContainer.style.display = 'none';
-  iframeContainer.innerHTML = `
-    <span class="material-icons back-button" onclick="goBack()">arrow_back</span>
-    <div class="loader"></div>
-    <iframe id="game-iframe" src="" frameborder="0" allow="pointer-lock"></iframe>
-  `;
   document.body.style.overflow = 'auto';
+  iframeContainer.style.display = 'none';
+
+  const iframe = document.getElementById('game-iframe');
+  if (iframe) {
+    iframe.src = ''; // Reset iframe source
+  }
+
+  const flashContainer = document.getElementById('flash-container');
+  if (flashContainer) {
+    flashContainer.innerHTML = ''; // Clear Flash container
+  }
 }
+
 
 
     // init
