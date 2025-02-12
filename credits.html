@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cred Page</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      color: white;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .modal {
+      background: #0a1f1f;
+      border: 1px solid #1a9b8a;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+      z-index: 10;
+    }
+
+    .modal h1 {
+      font-size: 3.5em;
+      margin: 0 0 10px;
+      color: #1a9b8a;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+      letter-spacing: 1px;
+    }
+
+    .modal p {
+      font-size: 1em;
+      color: #e0e0e0;
+      margin: 0;
+      line-height: 1.6;
+      max-width: 400px;
+      margin: 20px auto;
+    }
+
+    .error-icon {
+      width: 80px;
+      height: 80px;
+      background-color: #1a9b8a;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+      margin: 0 auto 20px;
+    }
+
+    .error-icon::before {
+      content: "C";
+      font-size: 2em;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    
+  </style>
+</head>
+<body>
+  <div class="modal">
+    <div class="error-icon"></div>
+    <h1>Credits</h1>
+    <li>@carbonical: webpage coding</li>
+    <li>waves: tedmcdo (on codepen)</li>
+    <li>cloak: monkeygg2 (check out their github!)</li>
+  </div>
+</body>
+</html>
