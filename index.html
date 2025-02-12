@@ -419,7 +419,7 @@
         Welcome to <span class="seafoam">Seafoam</span>
     </div>
     <div class="ver-text">
-        Seafoam 0.0.2 - alpha [7035-rev9]
+        Seafoam 0.0.2 - alpha <span id="commitHash" Loading..."</span>
         <br>Please report any bugs to @carbonical.</br>
     </div>
     <div class="sub-text" id="sub-text">
@@ -680,5 +680,27 @@
         }
     });     
 </script>
+    <script>
+        // Fetch the latest commit hash using GitHub API
+        async function fetchCommit() {
+            const repo = 'carbonical/Seafoam'; // Replace with your repo
+            const branch = 'main'; // Replace with your branch name (e.g., 'main' or 'master')
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/carbonical/Seafoam/commits/main`);
+                const data = await response.json();
+                const commitHash = data.sha;
+
+                // Insert the commit hash into the HTML
+                document.getElementById("commitHash").innerText = commitHash;
+            } catch (error) {
+                console.error('Error fetching commit:', error);
+                document.getElementById("commitHash").innerText = 'Failed to fetch commit';
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = fetchCommit;
+    </script>
 </body>
 </html>
