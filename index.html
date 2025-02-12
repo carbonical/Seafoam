@@ -316,28 +316,6 @@
             animation: fadeIn 0.5s ease-in-out forwards;
         }
 
-        .credits-iframe-container iframe {
-            width: 80%;
-            height: 80%;
-            border: none;
-            border-radius: 10px;
-        }
-        
-        .credits-iframe-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 20;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.5s ease-in-out forwards;
-        }
-
-        
         .game-iframe-container iframe {
             width: 80%;
             height: 80%;
@@ -441,7 +419,7 @@
         Welcome to <span class="seafoam">Seafoam</span>
     </div>
     <div class="ver-text">
-        Seafoam 0.0.2 - alpha [7035-rev8]
+        Seafoam 0.0.2 - alpha [7035-rev9]
         <br>Please report any bugs to @carbonical.</br>
     </div>
     <div class="sub-text" id="sub-text">
@@ -500,9 +478,6 @@
     <!--legal container for legal disclaimer-->
     <div class="legal-iframe-container" id="legal-iframe-container">
         <iframe src="legal.html" id="legal-iframe"></iframe>
-    </div>
-    <div class="credits-iframe-container" id="credits-iframe-container">
-        <iframe src="credits.html" id="credits-iframe"></iframe>
     </div>
     <!-- notifications button -->
     <a href="#" id="notifications-btn" class="notifications-btn">
@@ -566,10 +541,8 @@
         }
                const errorIframeContainer = document.getElementById('error-iframe-container');
                const legalIframeContainer = document.getElementById('legal-iframe-container');
-               const creditsIframeContainer = document.getElementById('credits-iframe-container');
         const errorIframe = document.getElementById('error-iframe');
         const legalIframe = document.getElementById('legal-iframe');
-        const legalIframe = document.getElementById('credits-iframe');
         
 
 
@@ -599,19 +572,6 @@
             }, 2000);
         }
 
-        function showCreditsPage() {
-            creditsIframeContainer.style.display = 'flex'; 
-            creditsIframeContainer.style.animation = 'fadeIn 0.5s ease-in-out forwards'; 
-
-
-            setTimeout(() => {
-                creditsIframeContainer.style.animation = 'fadeOut 0.5s ease-in-out forwards';
-                setTimeout(() => {
-                    creditsIframeContainer.style.display = 'none'; 
-                }, 500); 
-            }, 2000);
-        }
-
 
         function setActiveButton(page) {
             const buttons = document.querySelectorAll('.sidebar a');
@@ -631,12 +591,6 @@
             event.preventDefault(); 
             // setActiveButton('browser');
             showLegalPage();
-        });
-
-        document.querySelector('.sidebar a[data-tooltip="Credits"]').addEventListener('click', (event) => {
-            event.preventDefault(); 
-            // setActiveButton('browser');
-            showCreditsPage();
         });
         
         document.getElementById('notifications-btn').addEventListener('click', function(event) {
