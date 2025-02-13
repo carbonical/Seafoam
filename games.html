@@ -273,7 +273,7 @@
   <div class="search-bar">
     <input type="text" placeholder="Search for a game..." id="search-input" oninput="filterGames()">
     <button id="sort-button" onclick="toggleSort()">
-      <span class="material-icons" id="sortIcon">sort_by_alpha</span>
+      <span class="material-icons">sort_by_alpha</span>
     </button>
   </div>
 
@@ -951,18 +951,6 @@
       document.body.style.overflow = 'auto';
     }
 
-    // icon change onclick for sortbutton
-    document.getElementById("sortButton").addEventListener("click", function() {
-  var sortIcon = document.getElementById("sortIcon");
-
-  // Check the current icon and toggle it
-  if (sortIcon.textContent === "sort_by_alpha") {
-    sortIcon.textContent = "schedule";  // Change to schedule icon
-  } else {
-    sortIcon.textContent = "sort_by_alpha";  // Change back to alphabetical icon
-  }
-
-});
     // init
     window.onload = createGameCards;
   </script>
