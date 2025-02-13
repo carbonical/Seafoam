@@ -273,7 +273,7 @@
   <div class="search-bar">
     <input type="text" placeholder="Search for a game..." id="search-input" oninput="filterGames()">
     <button id="sort-button" onclick="toggleSort()">
-      <span class="material-icons">sort_by_alpha</span>
+      <span class="material-icons" id="sortIcon">sort_by_alpha</span>
     </button>
   </div>
 
@@ -950,6 +950,16 @@
       document.getElementById('game-iframe').src = '';
       document.body.style.overflow = 'auto';
     }
+
+    // JavaScript for toggling the icon
+    document.getElementById('sortButton').addEventListener('click', function() {
+      const sortIcon = document.getElementById('sortIcon');
+      if (sortIcon.textContent === 'sort_by_alpha') {
+        sortIcon.textContent = 'schedule';
+      } else {
+        sortIcon.textContent = 'sort_by_alpha';
+      }
+    });
 
     // init
     window.onload = createGameCards;
