@@ -35,6 +35,20 @@
         transform: translateY(0);
       }
     }
+    
+    .fps-counter {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 16px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index:1000;
+    }
 
     .search-bar {
       display: flex;
@@ -278,12 +292,13 @@
   </div>
 
   <div class="game-container" id="game-container">
-    <!-- game cards will go here-->
+    <!-- leave blank, game cards go here -->
   </div>
 
   <div id="iframe-container" class="iframe-container" style="display: none;">
     <span class="material-icons back-button" onclick="goBack()">arrow_back</span>
     <div class="loader"></div>
+    <span class="fps-counter">FPS: 0</span>
     <iframe id="game-iframe" src="" frameborder="0" onload="onIframeLoad()" allow="pointer-lock"></iframe>
   </div>
 
@@ -956,6 +971,8 @@
       document.body.style.overflow = 'hidden';
 
       loader.style.display = 'block';
+
+      startFPSCounter(); // fps check
     }
 
     function onIframeLoad() {
@@ -971,7 +988,27 @@
       document.getElementById('game-iframe').src = '';
       document.body.style.overflow = 'auto';
     }
+    
+    function startFPSCounter() {
+  let lastFrameTime = performance.now();
+  let frames = 0;
+  let fpsDisplay = document.querySelector('.fps-counter');
 
+  function updateFPS() {
+    let now = performance.now();
+    frames++;
+
+    if (now - lastFrameTime >= 1000) { // Update FPS every second
+      fpsDisplay.textContent = `FPS: ${frames}`;
+      frames = 0;
+      lastFrameTime = now;
+    }
+
+    requestAnimationFrame(updateFPS);
+  }
+
+  requestAnimationFrame(updateFPS);
+}
     // init
     window.onload = createGameCards;
   </script>
