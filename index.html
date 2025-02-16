@@ -682,40 +682,61 @@
         }
     });     
 
-    // blob cloak
     document.querySelector('.sidebar a[data-tooltip="Open in a blob url"]').addEventListener('click', (event) => {
     event.preventDefault();
 
-    // Get the current page's HTML
+    // Get the current page's HTML content
     let pageHTML = document.documentElement.outerHTML;
 
-    // Update the iframe src to Blob URLs or valid absolute URLs
-    pageHTML = pageHTML.replace(/<iframe[^>]*src="([^"]*)"[^>]*>/g, (match, src) => {
-        if (src.startsWith('http')) {
-            return match;  // Keep absolute URLs intact
-        } else {
-            const absoluteUrl = new URL(src, window.location.href).href;  // Convert to absolute URL
-            return match.replace(src, absoluteUrl);  // Replace the src with the absolute URL
+    // 1. Remove meta refresh tags that might cause redirects
+    pageHTML = pageHTML.replace(/<meta[^>]*http-equiv=["']refresh["'][^>]*>/g, '');
+
+    // 2. Prevent automatic redirect by intercepting window.location assignments in JavaScript
+    pageHTML = pageHTML.replace(/<script[^>]*>([\s\S]*?)<\/script>/g, (match, scriptContent) => {
+        if (scriptContent.includes('window.location')) {
+            // Modify the script to prevent redirects (you can also remove it entirely if preferred)
+            scriptContent = scriptContent.replace(/window\.location[^;]+;/g, '/*window.location blocked*/');
         }
+        return `<script>${scriptContent}</script>`;
     });
 
-    // Update the links (like <a> tags or resources) if needed
-    pageHTML = pageHTML.replace(/<a[^>]*href="([^"]*)"[^>]*>/g, (match, href) => {
-        if (href.startsWith('http')) {
-            return match;  // Keep absolute URLs intact
-        } else {
-            const absoluteUrl = new URL(href, window.location.href).href;  // Convert to absolute URL
-            return match.replace(href, absoluteUrl);  // Replace the href with the absolute URL
-        }
+    // 3. Modify internal links to use Blob URLs instead of the live site
+    pageHTML = pageHTML.replace(/href="(?!http)([^"]+)"/g, (match, relativeUrl) => {
+        // Change relative links to stay within the Blob
+        return `href="javascript:void(0)" data-blob-link="${relativeUrl}"`;
     });
 
-    // Create a Blob object with the updated HTML
+    // 4. Append event listeners to intercept internal links inside the Blob
+    pageHTML += `
+        <script>
+            document.addEventListener('click', function(event) {
+                const link = event.target.closest('a[data-blob-link]');
+                if (link) {
+                    const relativeUrl = link.getAttribute('data-blob-link');
+                    // Load the relative URL inside the Blob (you can adjust this to handle more cases)
+                    fetch(relativeUrl)
+                        .then(response => response.text())
+                        .then(content => {
+                            const newBlobUrl = URL.createObjectURL(new Blob([content], { type: 'text/html' }));
+                            window.location.href = newBlobUrl;
+                        })
+                        .catch(() => alert('Failed to load link.'));
+                    event.preventDefault(); // Prevent the default link behavior
+                }
+            });
+        </script>
+    `;
+
+    // 5. Create a Blob from the modified HTML content
     const blob = new Blob([pageHTML], { type: 'text/html' });
-    const blobURL = URL.createObjectURL(blob);
 
-    // Open the Blob URL in a new window/tab
-    window.open(blobURL, "_blank");
+    // 6. Create and use the Blob URL
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Open the Blob URL in a new window
+    window.open(blobUrl);
 });
+
 
 
 </script>
