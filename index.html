@@ -450,9 +450,6 @@
         <a href="#" data-tooltip="Open in about:blank" onclick="openInAboutBlank()">
             <span class="material-icons">rocket_launch</span>
         </a>
-        <a href="#" data-tooltip="Open in data: URL">
-            <span class="material-icons">open_in_new</span>
-        </a>
         <div class="divider"></div>
         <a href="#" data-tooltip="Settings">
             <span class="material-icons">settings</span>
@@ -701,36 +698,6 @@
     }
 }
         
-function generateDataUrlAndCopyToClipboard() {
-    // Get the current page's HTML content
-    var htmlContent = document.documentElement.outerHTML;
-
-    // Encode the HTML content as a data URL
-    var encodedHtml = encodeURIComponent(htmlContent);
-    var dataUrl = 'data:text/html;charset=utf-8,' + encodedHtml;
-
-    // Create a temporary textarea to copy the data URL to the clipboard
-    var textArea = document.createElement('textarea');
-    textArea.value = dataUrl;
-    document.body.appendChild(textArea);
-    
-    // Select the text and copy it to the clipboard
-    textArea.select();
-    document.execCommand('copy');
-    
-    // Remove the temporary textarea
-    document.body.removeChild(textArea);
-
-    // Optionally show a success message
-    alert('Data URL copied to clipboard!');
-}
-
-// Add an event listener to the "Open in a data: link" button
-document.querySelector('.sidebar a[data-tooltip="Open in a data: link"]').addEventListener('click', function(event) {
-    event.preventDefault();
-    generateDataUrlAndCopyToClipboard(); // Generate the data URL and copy it to clipboard
-});
-
         // Call the function when the page loads
         window.onload = fetchCommit;
     </script>
