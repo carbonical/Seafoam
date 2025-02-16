@@ -201,6 +201,12 @@
         description: "Short description of the app goes here.",
         url: "https://carbonical.github.io/ExtHang3r/"
       },
+      {
+        name: "Discord via WidgetBot",
+        image: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+        description: "Short description of the app goes here.",
+        url: "widgetbot"
+      },
     ];
 
     // Filter apps based on search input
@@ -235,12 +241,39 @@
 
     // Open app in iframe
     function openAppInIframe(url) {
-      const iframeContainer = document.getElementById('iframe-container');
-      const iframe = document.getElementById('app-iframe');
-      iframe.src = url;
-      iframeContainer.style.display = 'flex';
-      document.body.style.overflow = 'hidden'; // Disable scrolling
-    }
+  // Check if WidgetBot was clicked
+  if (url.includes("widgetbot")) {
+    // Create the WidgetBot element
+    const widgetBot = document.createElement("widgetbot");
+    widgetBot.setAttribute("server", "299881420891881473");  // Your server ID
+    widgetBot.setAttribute("channel", "355719584830980096"); // Your channel ID
+    widgetBot.setAttribute("width", "800");
+    widgetBot.setAttribute("height", "600");
+    
+    // Append the WidgetBot element to the page
+    const iframeContainer = document.getElementById('iframe-container');
+    iframeContainer.innerHTML = '';  // Clear existing content
+    iframeContainer.appendChild(widgetBot);
+
+    // Dynamically load the WidgetBot script
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/html-embed";
+    document.body.appendChild(script);
+
+    // Show the iframe container
+    iframeContainer.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Disable scrolling
+  }
+  else {
+    // Handle other URLs (e.g., external apps or iframes)
+    const iframeContainer = document.getElementById('iframe-container');
+    const iframe = document.getElementById('app-iframe');
+    iframe.src = url;
+    iframeContainer.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Disable scrolling
+  }
+}
+
 
     // Go back to app list
     function goBack() {
