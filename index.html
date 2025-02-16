@@ -705,35 +705,27 @@ function openInDataUrl() {
     var win = window.open();
     
     if (win) {
-        // Sample HTML content (You can replace it with the actual content you want to load as a data URL)
-        var htmlContent = `
-            <html>
-                <head>
-                    <title>Seafoam</title>
-                </head>
-                <body style="margin: 0; padding: 0; overflow: hidden;">
-                    <div style="background: linear-gradient(to bottom, #003d40, #101010); height: 100%; color: white;">
-                        <h1>Welcome to Seafoam</h1>
-                        <p>Here is your page opened as a data URL!</p>
-                    </div>
-                </body>
-            </html>
-        `;
+        // Get the current page's HTML content
+        var htmlContent = document.documentElement.outerHTML;
 
         // Encode the HTML content as a data URL
-        var dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent);
+        var encodedHtml = encodeURIComponent(htmlContent);
+        var dataUrl = 'data:text/html;charset=utf-8,' + encodedHtml;
 
+        // Create an iframe to load the data URL
         var iframe = win.document.createElement('iframe');
         iframe.style.width = "100vw";
         iframe.style.height = "100vh";
         iframe.style.border = "none";
         iframe.style.margin = "0";
 
+        // Set iframe source to the generated data URL
+        iframe.src = dataUrl;
+
+        // Add iframe to the new window
         win.document.body.style.margin = "0";
         win.document.body.style.padding = "0";
         win.document.body.style.overflow = "hidden";
-
-        iframe.src = dataUrl; // Set the iframe src to the data URL
         win.document.body.appendChild(iframe);
 
         // Focus the new window
@@ -742,7 +734,6 @@ function openInDataUrl() {
         alert("Popup blocked! Please allow popups for this site.");
     }
 }
-
         // Call the function when the page loads
         window.onload = fetchCommit;
     </script>
