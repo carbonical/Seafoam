@@ -450,6 +450,9 @@
         <a href="#" data-tooltip="Open in about:blank" onclick="openInAboutBlank()">
             <span class="material-icons">rocket_launch</span>
         </a>
+        <a href="#" data-tooltip="Open in a blob url">
+            <span class="material-icons">open_in_new</span>
+        </a>
         <div class="divider"></div>
         <a href="#" data-tooltip="Settings">
             <span class="material-icons">settings</span>
@@ -678,6 +681,18 @@
             window.location.href = customClassroomURL;
         }
     });     
+
+    document.querySelector('.sidebar a[data-tooltip="Open in a blob url"]').addEventListener('click', (event) => {
+    event.preventDefault();
+    
+    // Generate the Blob URL from the current page HTML
+    const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+    const blobURL = URL.createObjectURL(blob);
+
+    // Open the Blob URL in a new window/tab
+    window.open(blobURL, "_blank");
+});
+
 </script>
     <script>
         // Fetch the latest commit hash using GitHub API
