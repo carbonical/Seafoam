@@ -449,7 +449,7 @@
         <a href="#" data-tooltip="Open in about:blank" onclick="openInAboutBlank()">
             <span class="material-icons">rocket_launch</span>
         </a>
-        <a href="#" data-tooltip="Open in data: url" onclick="openInDataUrl()">
+        <a href="#" data-tooltip="Open in data: URL">
             <span class="material-icons">open_in_new</span>
         </a>
         <div class="divider"></div>
@@ -700,39 +700,36 @@
     }
 }
         
-function openInDataUrl() {
-    var win = window.open();
+function generateDataUrlAndCopyToClipboard() {
+    // Get the current page's HTML content
+    var htmlContent = document.documentElement.outerHTML;
+
+    // Encode the HTML content as a data URL
+    var encodedHtml = encodeURIComponent(htmlContent);
+    var dataUrl = 'data:text/html;charset=utf-8,' + encodedHtml;
+
+    // Create a temporary textarea to copy the data URL to the clipboard
+    var textArea = document.createElement('textarea');
+    textArea.value = dataUrl;
+    document.body.appendChild(textArea);
     
-    if (win) {
-        // Get the current page's HTML content
-        var htmlContent = document.documentElement.outerHTML;
+    // Select the text and copy it to the clipboard
+    textArea.select();
+    document.execCommand('copy');
+    
+    // Remove the temporary textarea
+    document.body.removeChild(textArea);
 
-        // Encode the HTML content as a data URL
-        var encodedHtml = encodeURIComponent(htmlContent);
-        var dataUrl = 'data:text/html;charset=utf-8,' + encodedHtml;
-
-        // Create an iframe to load the data URL
-        var iframe = win.document.createElement('iframe');
-        iframe.style.width = "100vw";
-        iframe.style.height = "100vh";
-        iframe.style.border = "none";
-        iframe.style.margin = "0";
-
-        // Set iframe source to the generated data URL
-        iframe.src = dataUrl;
-
-        // Add iframe to the new window
-        win.document.body.style.margin = "0";
-        win.document.body.style.padding = "0";
-        win.document.body.style.overflow = "hidden";
-        win.document.body.appendChild(iframe);
-
-        // Focus the new window
-        win.focus();
-    } else {
-        alert("Popup blocked! Please allow popups for this site.");
-    }
+    // Optionally show a success message
+    alert('Data URL copied to clipboard!');
 }
+
+// Add an event listener to the "Open in a data: link" button
+document.querySelector('.sidebar a[data-tooltip="Open in a data: link"]').addEventListener('click', function(event) {
+    event.preventDefault();
+    generateDataUrlAndCopyToClipboard(); // Generate the data URL and copy it to clipboard
+});
+
         // Call the function when the page loads
         window.onload = fetchCommit;
     </script>
