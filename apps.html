@@ -1,4 +1,3 @@
-<!-- in development! this is not finished by ANY means.-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -179,12 +178,13 @@
     }
     
     .widgetbot-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
     .back-button:hover {
       background-color: #1a4c4a;
     }
@@ -199,6 +199,7 @@
     <span class="material-icons back-button" onclick="goBack()">arrow_back</span>
     <iframe id="app-iframe" src="" frameborder="0"></iframe>
   </div>
+
   <script>
     // App data with URLs for the iframe
     const appsData = [
@@ -247,55 +248,41 @@
     }
 
     function openAppInIframe(url) {
-  if (url === "widgetbot") {
-    openWidgetBot();  // Call the function directly if the app is for WidgetBot
-  } else {
-    // Handle normal app iframe URLs
-    const iframeContainer = document.getElementById('iframe-container');
-    const iframe = document.getElementById('app-iframe');
-    iframe.src = url;
-    iframeContainer.style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // Disable scrolling
-  }
-}
+      const iframeContainer = document.getElementById('iframe-container');
+      const iframe = document.getElementById('app-iframe');
+      
+      if (url === "widgetbot") {
+        openWidgetBot();  // Call the function directly if the app is for WidgetBot
+      } else {
+        iframe.src = url;
+        iframeContainer.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Disable scrolling
+      }
+    }
 
-function openWidgetBot() {
-  // Create the WidgetBot element
-  const widgetBot = document.createElement("widgetbot");
-  widgetBot.setAttribute("server", "299881420891881473"); // Your server ID
-  widgetBot.setAttribute("channel", "355719584830980096"); // Your channel ID
-  widgetBot.setAttribute("width", "100%");
-  widgetBot.setAttribute("height", "100%");
+    function openWidgetBot() {
+      // Create the WidgetBot element
+      const widgetBot = document.createElement("widgetbot");
+      widgetBot.setAttribute("server", "299881420891881473"); // Your server ID
+      widgetBot.setAttribute("channel", "355719584830980096"); // Your channel ID
+      widgetBot.setAttribute("width", "100%");
+      widgetBot.setAttribute("height", "100%");
 
-  // Create the widgetbot container
-  const widgetBotContainer = document.createElement("div");
-  widgetBotContainer.classList.add("widgetbot-container");
-  widgetBotContainer.appendChild(widgetBot);
+      // Create the widgetbot container
+      const widgetBotContainer = document.createElement("div");
+      widgetBotContainer.classList.add("widgetbot-container");
+      widgetBotContainer.appendChild(widgetBot);
 
-  // Add to the iframe container
-  const iframeContainer = document.getElementById('iframe-container');
-  iframeContainer.innerHTML = ''; // Clear any existing content
-  iframeContainer.appendChild(widgetBotContainer);
+      // Add to the iframe container
+      const iframeContainer = document.getElementById('iframe-container');
+      iframeContainer.innerHTML = ''; // Clear any existing content
+      iframeContainer.appendChild(widgetBotContainer);
 
-  // Show the iframe container
-  iframeContainer.style.display = 'flex';
-  document.body.style.overflow = 'hidden'; // Disable scrolling
+      // Show the iframe container
+      iframeContainer.style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // Disable scrolling
+    }
 
-  // Show the back button
-  const backButton = document.createElement("span");
-  backButton.classList.add("material-icons", "back-button");
-  backButton.innerText = "arrow_back";
-  backButton.onclick = goBack;
-  iframeContainer.appendChild(backButton);
-}
-
-function goBack() {
-  const iframeContainer = document.getElementById('iframe-container');
-  iframeContainer.style.display = 'none';
-  document.body.style.overflow = 'auto'; // Enable scrolling
-}
-
-    // Go back to app list
     function goBack() {
       const iframeContainer = document.getElementById('iframe-container');
       iframeContainer.style.display = 'none';
