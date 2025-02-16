@@ -682,16 +682,41 @@
         }
     });     
 
+    // blob cloak
     document.querySelector('.sidebar a[data-tooltip="Open in a blob url"]').addEventListener('click', (event) => {
     event.preventDefault();
-    
-    // Generate the Blob URL from the current page HTML
-    const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+
+    // Get the current page's HTML
+    let pageHTML = document.documentElement.outerHTML;
+
+    // Update the iframe src to Blob URLs or valid absolute URLs
+    pageHTML = pageHTML.replace(/<iframe[^>]*src="([^"]*)"[^>]*>/g, (match, src) => {
+        if (src.startsWith('http')) {
+            return match;  // Keep absolute URLs intact
+        } else {
+            const absoluteUrl = new URL(src, window.location.href).href;  // Convert to absolute URL
+            return match.replace(src, absoluteUrl);  // Replace the src with the absolute URL
+        }
+    });
+
+    // Update the links (like <a> tags or resources) if needed
+    pageHTML = pageHTML.replace(/<a[^>]*href="([^"]*)"[^>]*>/g, (match, href) => {
+        if (href.startsWith('http')) {
+            return match;  // Keep absolute URLs intact
+        } else {
+            const absoluteUrl = new URL(href, window.location.href).href;  // Convert to absolute URL
+            return match.replace(href, absoluteUrl);  // Replace the href with the absolute URL
+        }
+    });
+
+    // Create a Blob object with the updated HTML
+    const blob = new Blob([pageHTML], { type: 'text/html' });
     const blobURL = URL.createObjectURL(blob);
 
     // Open the Blob URL in a new window/tab
     window.open(blobURL, "_blank");
 });
+
 
 </script>
     <script>
