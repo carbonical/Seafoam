@@ -541,6 +541,7 @@
   function showHomePage() {
     document.getElementById('welcome-text').style.display = 'block';
     document.getElementById('sub-text').style.display = 'block';
+    document.getElementById('notifications-btn').style.display = 'block';
     document.getElementById('game-text').style.display = 'block';
     document.getElementById('iframe-container').style.display = 'none';
     setActiveButton('home');
@@ -550,6 +551,7 @@
     document.getElementById('welcome-text').style.display = 'none';
     document.getElementById('sub-text').style.display = 'none';
     document.getElementById('game-text').style.display = 'none';
+    document.getElementById('notifications-btn').style.display = 'none';
     document.getElementById('iframe-container').style.display = 'block';
     document.getElementById('apps-iframe').src = 'games.html';
     setActiveButton('games');
@@ -558,6 +560,7 @@
   function showExploitsPage() {
     document.getElementById('welcome-text').style.display = 'none';
     document.getElementById('sub-text').style.display = 'none';
+    document.getElementById('notifications-btn').style.display = 'none';
     document.getElementById('game-text').style.display = 'none';
     document.getElementById('iframe-container').style.display = 'block';
     document.getElementById('apps-iframe').src = 'exploits.html';
@@ -567,6 +570,7 @@
   function showAppsPage() {
     document.getElementById('welcome-text').style.display = 'none';
     document.getElementById('sub-text').style.display = 'none';
+    document.getElementById('notifications-btn').style.display = 'none';
     document.getElementById('game-text').style.display = 'none';
     document.getElementById('iframe-container').style.display = 'block';
     document.getElementById('apps-iframe').src = 'apps.html';
