@@ -28,7 +28,7 @@
       width: 100%;
       padding: 0 16px;
       position: fixed;
-      top: 0;
+      top: -70px; /* Initially hidden above the viewport */
       left: 0;
       z-index: 10;
       font-size: 16px;
@@ -37,6 +37,11 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
       justify-content: center;
       align-items: center;
+      transition: top 0.5s ease; /* Animation for sliding */
+    }
+
+    .search-bar.slide-in {
+      top: 0; /* Moves into position */
     }
 
     .search-bar input {
@@ -238,6 +243,11 @@
   </div>
 
   <script>
+    // Wait for the page to load, then trigger the slide-in animation for the search bar
+    window.onload = function() {
+      document.querySelector('.search-bar').classList.add('slide-in');
+    };
+
     document.getElementById("search-input").addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         const url = event.target.value;
