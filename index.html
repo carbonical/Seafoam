@@ -585,14 +585,12 @@
   const legalIframe = document.getElementById('legal-iframe');
 
   function showErrorPage() {
-    errorIframeContainer.style.display = 'flex';
-    errorIframeContainer.style.animation = 'fadeIn 0.5s ease-in-out forwards';
-    setTimeout(() => {
-      errorIframeContainer.style.animation = 'fadeOut 0.5s ease-in-out forwards';
-      setTimeout(() => {
-        errorIframeContainer.style.display = 'none';
-      }, 500);
-    }, 2000);
+    document.getElementById('welcome-text').style.display = 'none';
+    document.getElementById('sub-text').style.display = 'none';
+    document.getElementById('game-text').style.display = 'none';
+    document.getElementById('iframe-container').style.display = 'block';
+    document.getElementById('apps-iframe').src = 'proxc.html';
+    setActiveButton('browser');
   }
 
   function showLegalPage() {
