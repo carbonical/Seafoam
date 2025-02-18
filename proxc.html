@@ -24,22 +24,26 @@
       height: 100vh;
       position: fixed;
       top: 0;
-      left: 0;
+      left: -220px; /* Start off-screen */
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 20px;  /* Reduced padding */
-      padding-bottom: 20px;  /* Reduced padding */
+      padding-top: 20px;
+      padding-bottom: 20px;
       border-radius: 0 15px 15px 0; /* Rounded right corners */
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
       overflow-y: auto;
+      transition: left 0.5s ease; /* Smooth transition to slide in */
+    }
+    .sidebar.show {
+      left: 0; /* Slide into position */
     }
     .sidebar a {
       color: white;
       text-decoration: none;
       font-size: 18px;
       font-weight: bold;
-      padding: 12px; /* Reduced padding */
+      padding: 12px;
       width: 170px;
       text-align: center;
       border-radius: 8px;
@@ -180,6 +184,7 @@
 
     // Initialize game list on page load
     document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('.sidebar').classList.add('show'); // Show sidebar with sliding effect
       filterGames("all"); // Default to showing all games
     });
   </script>
