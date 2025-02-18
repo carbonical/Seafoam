@@ -526,10 +526,6 @@
   <div id="notification-iframe-container" class="notification-iframe-container">
     <iframe src="notifications.html" id="notification-iframe"></iframe>
   </div>
-  <!-- proxc iframe container -->
-  <div id="browser-iframe-container" class="browser-iframe-container">
-    <iframe src="proxc.html" id="browser-iframe"></iframe>
-  </div>
   <script>
   const starsContainer = document.getElementById('stars');
   const numStars = 100;
@@ -577,15 +573,6 @@
     setActiveButton('apps');
   }
 
-  function showBrowserPage() {
-    document.getElementById('welcome-text').style.display = 'none';
-    document.getElementById('sub-text').style.display = 'none';
-    document.getElementById('game-text').style.display = 'none';
-    document.getElementById('iframe-container').style.display = 'block';
-    document.getElementById('apps-iframe').src = 'proxc.html';
-    setActiveButton('browser');
-  }
-
   function setActiveButton(page) {
     const buttons = document.querySelectorAll('.sidebar a');
     buttons.forEach(button => button.classList.remove('active'));
@@ -596,6 +583,17 @@
   const legalIframeContainer = document.getElementById('legal-iframe-container');
   const errorIframe = document.getElementById('error-iframe');
   const legalIframe = document.getElementById('legal-iframe');
+
+  function showErrorPage() {
+    errorIframeContainer.style.display = 'flex';
+    errorIframeContainer.style.animation = 'fadeIn 0.5s ease-in-out forwards';
+    setTimeout(() => {
+      errorIframeContainer.style.animation = 'fadeOut 0.5s ease-in-out forwards';
+      setTimeout(() => {
+        errorIframeContainer.style.display = 'none';
+      }, 500);
+    }, 2000);
+  }
 
   function showLegalPage() {
     legalIframeContainer.style.display = 'flex';
@@ -614,6 +612,11 @@
     const activeButton = document.querySelector(`.sidebar a[data-tooltip="${page.charAt(0).toUpperCase() + page.slice(1)}"]`);
     if(activeButton) activeButton.classList.add('active');
   }
+  document.querySelector('.sidebar a[data-tooltip="Browser"]').addEventListener('click', (event) => {
+    event.preventDefault();
+    // setActiveButton('browser');
+    showErrorPage();
+  });
   document.querySelector('.sidebar a[data-tooltip="Legal"]').addEventListener('click', (event) => {
     event.preventDefault();
     // setActiveButton('browser');
