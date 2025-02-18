@@ -486,6 +486,9 @@
     <a href="#" data-tooltip="Exploits" onClick="showExploitsPage()">
       <span class="material-icons">code</span>
     </a>
+    <a href="#" data-tooltip="Other Proxies">
+      <span class="material-icons">home_storage</span>
+    </a>
     <a href="#" data-tooltip="Browser">
       <span class="material-icons">public</span>
     </a>
@@ -590,6 +593,15 @@
     document.getElementById('game-text').style.display = 'none';
     document.getElementById('iframe-container').style.display = 'block';
     document.getElementById('apps-iframe').src = 'proxc.html';
+    setActiveButton('other proxies');
+  }
+
+  function showBrowserPage() {
+    document.getElementById('welcome-text').style.display = 'none';
+    document.getElementById('sub-text').style.display = 'none';
+    document.getElementById('game-text').style.display = 'none';
+    document.getElementById('iframe-container').style.display = 'block';
+    document.getElementById('apps-iframe').src = 'browser.html';
     setActiveButton('browser');
   }
 
@@ -610,10 +622,15 @@
     const activeButton = document.querySelector(`.sidebar a[data-tooltip="${page.charAt(0).toUpperCase() + page.slice(1)}"]`);
     if(activeButton) activeButton.classList.add('active');
   }
-  document.querySelector('.sidebar a[data-tooltip="Browser"]').addEventListener('click', (event) => {
+  document.querySelector('.sidebar a[data-tooltip="Other Proxies"]').addEventListener('click', (event) => {
     event.preventDefault();
     // setActiveButton('browser');
     showErrorPage();
+  });
+  document.querySelector('.sidebar a[data-tooltip="Browser"]').addEventListener('click', (event) => {
+    event.preventDefault();
+    // setActiveButton('browser');
+    showBrowserPage();
   });
   document.querySelector('.sidebar a[data-tooltip="Legal"]').addEventListener('click', (event) => {
     event.preventDefault();
